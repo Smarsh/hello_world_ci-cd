@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t hello-world /tmp/build/hello_world_ci-cd/hello-world-APPSERV-8969
+            docker build -t hello-world /tmp/build/hello-world-APPSERV-8969
       - run:
           name: Tag Docker Image
           command: |
