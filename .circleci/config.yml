@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Push Image To Artifactory
           command: |
-            docker push smarsh-docker-snapshot-local.jfrog.io/hello-world:hello-world_legacy-$VERSION-$CIRCLE_BUILD_NUM
+            docker push smarsh-docker-snapshot-local.jfrog.io/hello-world:hello-world-$VERSION-$CIRCLE_BUILD_NUM
 
   
 workflows:
