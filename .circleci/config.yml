@@ -2,8 +2,7 @@ version: 2.1
 
 executors:
   docker_builder:
-    machine:
-      image: cimg/base:2024.10
+    resource_class: medium
 
 parameters:
   artifactory_url:
