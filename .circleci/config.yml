@@ -2,7 +2,8 @@ version: 2.1
 
 executors:
   docker_builder:
-    resource_class: medium
+    machine:
+      resource_class: medium
 
 parameters:
   artifactory_url:
