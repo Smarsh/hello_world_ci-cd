@@ -1,17 +1,18 @@
-from flask import Flask
+# app.py
 import os
 
-app = Flask(__name__)
+def main():
+    # Read template from ConfigMap
+    with open("/config/template", "r") as file:
+        template = file.read()
 
-@app.route('/')
-def hello_world():
-    # Fetch the password from environment variables
-    password = os.environ.get("MY_PASSWORD")
+    # Read password from externalsecret
+    with open("/secret/password", "r") as file:
+        password = file.read().strip()
 
-    if password:
-        return f"Hello, World! The fetched password is: {password}"
-    else:
-        return f"Hello, World! No password found."
+    # Replace .password in the template
+    message = template.replace(".password", password)
+    print(message)
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    main()
