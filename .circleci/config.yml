@@ -61,7 +61,7 @@ workflows:
     jobs:
       - build-and-push-docker-image:
           context:
-            - on-prem-runtime
+            - on-prem-runtime 
           filters:
             branches:
               only:
