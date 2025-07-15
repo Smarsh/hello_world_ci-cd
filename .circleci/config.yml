@@ -3,15 +3,12 @@ version: 2.1
 executors:
   docker_builder:
     machine:
-      resource_class: medium
+      resource_class: large
 
 parameters:
   artifactory_url:
     type: string
     default: https://smarsh.jfrog.io/artifactory
-  package_release_repo:
-    type: string
-    default: yum-webarch-local.jfrog.io
 
 jobs:
   build-and-push-docker-image:
@@ -24,9 +21,27 @@ jobs:
           command: |
             echo "export VERSION=$(git rev-parse --short HEAD)" >> $BASH_ENV
       - run:
+          name: Install endorctl
+          command: |
+            curl -sSfL https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
+            echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c
+            chmod +x endorctl
+            mv endorctl /usr/local/bin/endorctl
+            endorctl --version
+      - run:
+          name: Scan Source Code
+          command: |
+            source $BASH_ENV
+            endorctl scan -p /tmp/build --api-key $ENDOR_API_KEY --api-secret $ENDOR_API_SECRET -n smarsh.fabric.one_smarsh_platform
+      - run:
           name: Build Docker Image
           command: |
             docker build -t hello-world /tmp/build
+      - run:
+          name: Scan Docker Image
+          command: |
+            source $BASH_ENV
+            endorctl scan -p /tmp/build --api-key $ENDOR_API_KEY --api-secret $ENDOR_API_SECRET -n smarsh.fabric.one_smarsh_platform --container hello-world
       - run:
           name: Tag Docker Image
           command: |
@@ -46,7 +61,7 @@ workflows:
     jobs:
       - build-and-push-docker-image:
           context:
-            - org-global
+            - on-prem-runtime
           filters:
             branches:
               only:
