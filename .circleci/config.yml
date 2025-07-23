@@ -30,7 +30,7 @@ jobs:
             endorctl --version
       - run:
           name: Scan Source Code
-          command: |
+          command: | 
             source $BASH_ENV
             endorctl scan -p /tmp/build --api-key $ENDOR_API_KEY --api-secret $ENDOR_API_SECRET -n smarsh.fabric.one_smarsh_platform
       - run:
