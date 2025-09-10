@@ -11,8 +11,8 @@ parameters:
     default: https://smarsh.jfrog.io/artifactory
 
 jobs:
-  circleci_ip_ranges: true
   build-and-push-docker-image:
+    circleci_ip_ranges: true
     executor: docker_builder
     working_directory: /tmp/build
     steps:
