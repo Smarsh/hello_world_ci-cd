@@ -1,9 +1,9 @@
 version: 2.1
 
-executors:
-  docker_builder:
-    machine:
-      resource_class: smarsh/proarch
+# executors:
+#   docker_builder:
+#     machine:
+#       resource_class: smarsh/proarch
 
 parameters:
   artifactory_url:
@@ -12,8 +12,9 @@ parameters:
 
 jobs:
   build-and-push-docker-image:
-    executor: docker_builder
+    #executor: docker_builder
     working_directory: /tmp/build
+    resource_class: smarsh/proarch
     steps:
       - checkout
       - run:
