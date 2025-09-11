@@ -3,7 +3,7 @@ version: 2.1
 executors:
   docker_builder:
     machine:
-      resource_class: large
+      resource_class: smarsh/proarch
 
 parameters:
   artifactory_url:
@@ -20,19 +20,19 @@ jobs:
           name: Set Placeholder Version number
           command: |
             echo "export VERSION=1.0.3" >> $BASH_ENV
-      - run:
-          name: Install endorctl
-          command: |
-            curl -sSfL https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
-            echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c
-            chmod +x endorctl
-            sudo mv endorctl /usr/local/bin/endorctl
-            endorctl --version
-      - run:
-          name: Scan Source Code
-          command: |
-            source $BASH_ENV
-            endorctl scan -p /tmp/build --api-key $ENDOR_API_KEY --api-secret $ENDOR_API_SECRET -n smarsh.fabric.one_smarsh_platform
+      # - run:
+      #     name: Install endorctl
+      #     command: |
+      #       curl -sSfL https://api.endorlabs.com/download/latest/endorctl_linux_amd64 -o endorctl
+      #       echo "$(curl -s https://api.endorlabs.com/sha/latest/endorctl_linux_amd64)  endorctl" | sha256sum -c
+      #       chmod +x endorctl
+      #       sudo mv endorctl /usr/local/bin/endorctl
+      #       endorctl --version
+      # - run:
+      #     name: Scan Source Code
+      #     command: |
+      #       source $BASH_ENV
+      #       endorctl scan -p /tmp/build --api-key $ENDOR_API_KEY --api-secret $ENDOR_API_SECRET -n smarsh.fabric.one_smarsh_platform
       - run:
           name: Build Docker Image
           command: |
