@@ -11,7 +11,7 @@ def hello_world():
     if password:
         return f"Hello, World! The fetched password is: {password}"
     else:
-        return f"Hello, World! No password found."
+        return f"Hello, World! No password found. "
 
 if __name__ == '__main__':
     app.run()
